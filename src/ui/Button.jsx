@@ -47,3 +47,21 @@ const variations = {
     }
   `,
 };
+
+const Button = styled.button.attrs((props) => ({
+  size: props.size || "medium",
+  variation: props.variation || "secondary",
+}))`
+  border: none;
+  border-radius: var(--border-radius-sm);
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--color-brand-700);
+  }
+  ${(props) => sizes[props.size]}
+  ${(props) => variations[props.variation]}
+`;
+
+export default Button;
