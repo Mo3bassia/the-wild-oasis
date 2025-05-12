@@ -29,7 +29,7 @@ function CreateCabinForm() {
     },
   });
   function onSubmit(data) {
-    mutate(data);
+    mutate({ ...data, image: data.image[0] });
   }
   function onError(error) {
     Object.values(error).forEach((err) => {
@@ -102,7 +102,14 @@ function CreateCabinForm() {
       </FormRow>
 
       <FormRow label={"Cabin photo"} error={errors?.image?.message}>
-        <FileInput id="image" accept="image/*" disabled={isAdding} />
+        <FileInput
+          id="image"
+          accept="image/*"
+          disabled={isAdding}
+          {...register("image", {
+            required: "Image is required",
+          })}
+        />
       </FormRow>
 
       <FormRow>
