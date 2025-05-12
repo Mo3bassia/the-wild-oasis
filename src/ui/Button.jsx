@@ -60,6 +60,10 @@ const Button = styled.button.attrs((props) => ({
   &:hover {
     background-color: var(--color-brand-700);
   }
+  &:disabled {
+    opacity: 0.5;
+    box-shadow: var(--shadow-md);
+  }
   ${(props) => sizes[props.size]}
   ${(props) => variations[props.variation]}
 `;
