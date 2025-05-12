@@ -4,7 +4,8 @@ import { createRoot } from "react-dom/client";
 import App from "./App.jsx";
 import { QueryClient } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-export const queryClient = new QueryClient({
+import { Toaster } from "react-hot-toast";
+const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       staleTime: 0,
@@ -15,6 +16,7 @@ export const queryClient = new QueryClient({
 createRoot(document.getElementById("root")).render(
   <QueryClientProvider client={queryClient}>
     <ReactQueryDevtools initialIsOpen={false} />
+    <Toaster />
     <StrictMode>
       <App />
     </StrictMode>
