@@ -1,3 +1,4 @@
+import toast from "react-hot-toast";
 import supabase, { SUPABASE_URL } from "./supabase";
 
 export async function getCabins() {
@@ -11,10 +12,19 @@ export async function getCabins() {
 }
 
 export async function removeCabin(id) {
-  const { error, data } = await supabase.from("cabins").delete().eq("id", id);
+  const { error, data } = await supabase
+    .from("cabins")
+    .delete()
+    .eq("id", id)
+    .select();
+
+  if (data) {
+    toast.success("Cabin deleted successfully");
+  }
 
   if (error) {
     console.error("Cabin could not be deleted:", error);
+    toast.error("Cabin could not be deleted");
     throw new Error("Cabin could not be deleted");
   }
   return data;
@@ -36,6 +46,7 @@ export async function createCabin(cabin) {
 
   if (error) {
     console.error("Cabin could not be created:", error);
+    toast.error("Cabin could not be created");
     throw new Error("Cabin could not be created");
   }
 
@@ -46,6 +57,7 @@ export async function createCabin(cabin) {
   if (StorageError) {
     await supabase.from("cabins").delete().eq("id", data.id);
     console.error("Image could not be uploaded:", StorageError);
+    toast.error("Image could not be uploaded");
     throw new Error("Image could not be uploaded");
   }
 
@@ -80,6 +92,7 @@ export async function editCabin(cabin, id) {
 
   if (error) {
     console.error("Cabin could not be edited:", error);
+    toast.error("Cabin could not be edited");
     throw new Error("Cabin could not be edited");
   }
   return data;
