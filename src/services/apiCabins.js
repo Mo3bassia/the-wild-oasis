@@ -51,3 +51,36 @@ export async function createCabin(cabin) {
 
   return data;
 }
+
+export async function editCabin(cabin, id) {
+  const hasImagePath = cabin.image?.startsWith?.(SUPABASE_URL);
+  console.log(cabin, id);
+  const imageName = `${Math.random()}-${cabin.image[0].name}`;
+  const imagePath = `${SUPABASE_URL}/storage/v1/object/public/cabin-images/${imageName.replaceAll(
+    "/",
+    ""
+  )}`;
+
+  if (!hasImagePath) {
+    const { error: StorageError } = await supabase.storage
+      .from("cabin-images")
+      .upload(imageName, cabin.image[0]);
+
+    if (StorageError) {
+      console.error("Image could not be uploaded:", StorageError);
+      throw new Error("Image could not be uploaded");
+    }
+  }
+
+  const { data, error } = await supabase
+    .from("cabins")
+    .update({ ...cabin, image: hasImagePath ? cabin.image : imagePath })
+    .eq("id", id)
+    .select();
+
+  if (error) {
+    console.error("Cabin could not be edited:", error);
+    throw new Error("Cabin could not be edited");
+  }
+  return data;
+}
