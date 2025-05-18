@@ -7,7 +7,6 @@ export function useCreateCabin() {
   return useMutation({
     mutationFn: (data) => createCabin(data),
     onSuccess: () => {
-      toast.success("Cabin created successfully");
       queryClient.invalidateQueries({ queryKey: ["cabins"] });
       queryClient.refetchQueries({ queryKey: ["cabins"] });
     },

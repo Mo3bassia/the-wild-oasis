@@ -32,6 +32,7 @@ function CreateCabinForm({ cabinToEdit = {} }) {
         {
           onSuccess: () => {
             reset();
+            toast.success("Cabin has been created successfully");
           },
         }
       );

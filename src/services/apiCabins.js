@@ -31,17 +31,29 @@ export async function removeCabin(id) {
 }
 
 export async function createCabin(cabin) {
+  const hasImagePath = cabin.image?.startsWith?.(SUPABASE_URL);
   const imageName = `${Math.random()}-${cabin.image.name}`;
   const imagePath = `${SUPABASE_URL}/storage/v1/object/public/cabin-images/${imageName.replaceAll(
     "/",
     ""
   )}`;
 
-  console.log(imagePath);
+  if (!hasImagePath) {
+    const { error: StorageError } = await supabase.storage
+      .from("cabin-images")
+      .upload(imageName, cabin.image);
+
+    if (StorageError) {
+      await supabase.from("cabins").delete().eq("id", data.id);
+      console.error("Image could not be uploaded:", StorageError);
+      toast.error("Image could not be uploaded");
+      throw new Error("Image could not be uploaded");
+    }
+  }
 
   const { data, error } = await supabase
     .from("cabins")
-    .insert([{ ...cabin, image: imagePath }])
+    .insert([{ ...cabin, image: hasImagePath ? cabin.image : imagePath }])
     .select();
 
   if (error) {
@@ -50,23 +62,11 @@ export async function createCabin(cabin) {
     throw new Error("Cabin could not be created");
   }
 
-  const { error: StorageError } = await supabase.storage
-    .from("cabin-images")
-    .upload(imageName, cabin.image);
-
-  if (StorageError) {
-    await supabase.from("cabins").delete().eq("id", data.id);
-    console.error("Image could not be uploaded:", StorageError);
-    toast.error("Image could not be uploaded");
-    throw new Error("Image could not be uploaded");
-  }
-
   return data;
 }
 
 export async function editCabin(cabin, id) {
   const hasImagePath = cabin.image?.startsWith?.(SUPABASE_URL);
-  console.log(cabin, id);
   const imageName = `${Math.random()}-${cabin.image[0].name}`;
   const imagePath = `${SUPABASE_URL}/storage/v1/object/public/cabin-images/${imageName.replaceAll(
     "/",
