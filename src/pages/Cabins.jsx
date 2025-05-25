@@ -6,6 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import CabineTable from "../features/cabins/CabinTable";
 import Button from "../ui/Button";
 import CreateCabinForm from "../features/cabins/CreateCabinForm";
+import AddCabin from "../features/cabins/AddCabin";
 
 function Cabins() {
   const [showForm, setShowForm] = useState(false);
@@ -17,10 +18,7 @@ function Cabins() {
       </Row>
       <Row>
         <CabineTable />
-        <Button onClick={() => setShowForm((shown) => !shown)}>
-          Show form
-        </Button>
-        {showForm && <CreateCabinForm />}
+        <AddCabin />
       </Row>
     </>
   );
