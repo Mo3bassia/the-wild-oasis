@@ -8,6 +8,7 @@ import toast from "react-hot-toast";
 import Modal from "../../ui/Modal";
 import Button from "../../ui/Button";
 import StyledConfirmDelete from "../../ui/ConfirmDelete";
+import Table from "../../ui/Table";
 
 const TableRow = styled.div`
   display: grid;
@@ -57,7 +58,7 @@ export default function CabinRow({ cabin }) {
   const uniqueCabin = { ...cabin, name: `Copy of ${cabin.name}` };
   delete uniqueCabin.id;
   return (
-    <TableRow role="row">
+    <Table.Row role="row">
       <Img src={image} alt="" />
       <Cabin>{name}</Cabin>
       <div>Fits up to {maxCapacity} guests</div>
@@ -104,6 +105,6 @@ export default function CabinRow({ cabin }) {
           </Modal.Window>
         </Modal>
       </div>
-    </TableRow>
+    </Table.Row>
   );
 }
