@@ -9,6 +9,7 @@ import Modal from "../../ui/Modal";
 import Button from "../../ui/Button";
 import StyledConfirmDelete from "../../ui/ConfirmDelete";
 import Table from "../../ui/Table";
+import Menus from "../../ui/Menus";
 
 const TableRow = styled.div`
   display: grid;
@@ -69,33 +70,34 @@ export default function CabinRow({ cabin }) {
       ) : (
         <span>&mdash;</span>
       )}
-      <div>
-        <button
-          disabled={isDuplicating}
-          onClick={() =>
-            duplicateCabin(uniqueCabin, {
-              onSuccess: () => {
-                toast.success("Cabin has been duplicated successfully");
-              },
-            })
-          }
-        >
-          <HiSquare2Stack />
-        </button>
-        <Modal>
-          <Modal.Open opens="cabin-form">
-            <button>
-              <HiPencil />
-            </button>
-          </Modal.Open>
+      <Modal>
+        <Menus.Menu>
+          <Menus.Toggle id={id} />
+          <Menus.List id={id}>
+            <Menus.Button
+              onClick={() =>
+                duplicateCabin(uniqueCabin, {
+                  onSuccess: () => {
+                    toast.success("Cabin has been duplicated successfully");
+                  },
+                })
+              }
+              icon={<HiSquare2Stack />}
+            >
+              Duplicate
+            </Menus.Button>
+            <Modal.Open opens="delete-cabin">
+              <Menus.Button icon={<HiTrash />}>Delete</Menus.Button>
+            </Modal.Open>
+            <Modal.Open opens="cabin-form">
+              <Menus.Button icon={<HiPencil />}>Edit</Menus.Button>
+            </Modal.Open>
+          </Menus.List>
+
           <Modal.Window name="cabin-form">
             <CreateCabinForm cabinToEdit={cabin} />
           </Modal.Window>
-          <Modal.Open opens="delete-cabin">
-            <button>
-              <HiTrash />
-            </button>
-          </Modal.Open>
+
           <Modal.Window name="delete-cabin">
             <StyledConfirmDelete
               disable={isDeleting}
@@ -103,8 +105,8 @@ export default function CabinRow({ cabin }) {
               onConfirm={() => deleteCabin(id)}
             />
           </Modal.Window>
-        </Modal>
-      </div>
+        </Menus.Menu>
+      </Modal>
     </Table.Row>
   );
 }
