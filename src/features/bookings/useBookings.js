@@ -4,8 +4,8 @@ import { useUrlSearch } from "../../hooks/useUrlSearch";
 
 export function useBookings() {
   const { getParam } = useUrlSearch();
-  const status = getParam("status");
-  const sortBy = getParam("sortBy");
+  const status = getParam("status") || "all";
+  const sortBy = getParam("sortBy") || "startDate-asc";
 
   const filter = {
     status: status === "all" ? undefined : status,
@@ -13,7 +13,7 @@ export function useBookings() {
   };
 
   return useQuery({
-    queryKey: ["bookings", status],
-    queryFn: () => getBookings(filter),
+    queryKey: ["bookings", status, sortBy],
+    queryFn: () => getBookings(filter, sortBy),
   });
 }
