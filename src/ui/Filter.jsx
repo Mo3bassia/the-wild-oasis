@@ -48,10 +48,10 @@ export default function Filter({ filterField, options }) {
   }
   return (
     <StyledFilter>
-      {options.map((option) => (
+      {options.map((option, index) => (
         <FilterButton
           key={option.value}
-          active={getParam(filterField) === option.value}
+          active={getParam(filterField) === option.value || index === 0}
           onClick={() => handleFilterClick(option.value)}
         >
           {option.label}
