@@ -51,7 +51,12 @@ export default function Filter({ filterField, options }) {
       {options.map((option, index) => (
         <FilterButton
           key={option.value}
-          active={getParam(filterField) === option.value || index === 0}
+          active={
+            getParam(filterField) === option.value ||
+            (getParam(filterField) !== option.value &&
+              index === 0 &&
+              !getParam(filterField))
+          }
           onClick={() => handleFilterClick(option.value)}
         >
           {option.label}

@@ -3,15 +3,65 @@ import Table from "../../ui/Table";
 import Menus from "../../ui/Menus";
 import { useBookings } from "./useBookings";
 import Spinner from "../../ui/Spinner";
+import { useUrlSearch } from "../../hooks/useUrlSearch";
 
 function BookingTable() {
   const { data: bookings, isLoading } = useBookings();
+  const { getParam, SetParam, deleteParam } = useUrlSearch();
 
   if (isLoading) {
     return <Spinner />;
   }
 
-  console.log(bookings)
+  // const status = getParam("status");
+  // let filteredBookings = bookings;
+
+  // switch (status) {
+  //   case "checked-out":
+  //     filteredBookings = bookings.filter(
+  //       (booking) => booking.status === "checked-out"
+  //     );
+  //     break;
+  //   case "checked-in":
+  //     filteredBookings = bookings.filter(
+  //       (booking) => booking.status === "checked-in"
+  //     );
+  //     break;
+  //   case "unconfirmed":
+  //     filteredBookings = bookings.filter(
+  //       (booking) => booking.status === "unconfirmed"
+  //     );
+  //     break;
+  //   default:
+  //     break;
+  // }
+
+  // const sortBy = getParam("sortBy");
+
+  // switch (sortBy) {
+  //   case "totalPrice-asc":
+  //     filteredBookings = filteredBookings.sort(
+  //       (a, b) => a.totalPrice - b.totalPrice
+  //     );
+  //     break;
+  //   case "totalPrice-desc":
+  //     filteredBookings = filteredBookings.sort(
+  //       (a, b) => b.totalPrice - a.totalPrice
+  //     );
+  //     break;
+  //   case "startDate-asc":
+  //     filteredBookings = filteredBookings.sort(
+  //       (a, b) => new Date(a.startDate) - new Date(b.startDate)
+  //     );
+  //     break;
+  //   case "startDate-desc":
+  //     filteredBookings = filteredBookings.sort(
+  //       (a, b) => new Date(b.startDate) - new Date(a.startDate)
+  //     );
+  //     break;
+  //   default:
+  //     break;
+  // }
 
   return (
     <Menus>
