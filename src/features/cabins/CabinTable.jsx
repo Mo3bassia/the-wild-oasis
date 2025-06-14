@@ -5,17 +5,19 @@ import { useCabins } from "./useCabins";
 import Table from "../../ui/Table";
 import Menus from "../../ui/Menus";
 import { useSearchParams } from "react-router-dom";
+import { useUrlSearch } from "../../hooks/useUrlSearch";
 
 export default function CabinTable() {
   const { data: cabins, isLoading } = useCabins();
   const [searchParams] = useSearchParams();
+  const { getParam, setParam, deleteParam } = useUrlSearch();
 
   if (isLoading) {
     return <Spinner />;
   }
 
   let filteredCabins = cabins || [];
-  const filter = searchParams.get("filter");
+  const filter = getParam("filter");
   switch (filter) {
     case "all":
       break;
@@ -27,6 +29,30 @@ export default function CabinTable() {
       break;
     default:
       filteredCabins = cabins;
+      break;
+  }
+
+  const sortBy = getParam("sortBy");
+  switch (sortBy) {
+    case "name-asc":
+      filteredCabins.sort((a, b) => a.name.localeCompare(b.name));
+      break;
+    case "name-desc":
+      filteredCabins.sort((a, b) => b.name.localeCompare(a.name));
+      break;
+    case "regularPrice-asc":
+      filteredCabins.sort((a, b) => a.regularPrice - b.regularPrice);
+      break;
+    case "regularPrice-desc":
+      filteredCabins.sort((a, b) => b.regularPrice - a.regularPrice);
+      break;
+    case "maxCapacity-asc":
+      filteredCabins.sort((a, b) => a.maxCapacity - b.maxCapacity);
+      break;
+    case "maxCapacity-desc":
+      filteredCabins.sort((a, b) => b.maxCapacity - a.maxCapacity);
+      break;
+    default:
       break;
   }
 
