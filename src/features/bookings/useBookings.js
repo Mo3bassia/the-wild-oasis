@@ -6,6 +6,7 @@ export function useBookings() {
   const { getParam } = useUrlSearch();
   const status = getParam("status") || "all";
   const sortBy = getParam("sortBy") || "startDate-asc";
+  const page = getParam("page") || 1;
 
   const filter = {
     status: status === "all" ? undefined : status,
@@ -13,7 +14,7 @@ export function useBookings() {
   };
 
   return useQuery({
-    queryKey: ["bookings", status, sortBy],
-    queryFn: () => getBookings(filter, sortBy),
+    queryKey: ["bookings", status, sortBy, page],
+    queryFn: () => getBookings(filter, sortBy, page),
   });
 }

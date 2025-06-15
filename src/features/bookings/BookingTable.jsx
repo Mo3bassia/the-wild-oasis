@@ -7,8 +7,11 @@ import { useUrlSearch } from "../../hooks/useUrlSearch";
 import Pagination from "../../ui/Pagination";
 
 function BookingTable() {
-  const { data: bookings, isLoading } = useBookings();
+  const { data, isLoading } = useBookings();
   const { getParam, SetParam, deleteParam } = useUrlSearch();
+
+  const bookings = data?.data || [];
+  const count = data?.count || 0;
 
   if (isLoading) {
     return <Spinner />;
@@ -83,7 +86,7 @@ function BookingTable() {
           )}
         />
         <Table.Footer>
-          <Pagination count={15} />
+          <Pagination count={count} />
         </Table.Footer>
       </Table>
     </Menus>
