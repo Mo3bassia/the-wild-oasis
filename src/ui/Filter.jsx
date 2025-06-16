@@ -44,6 +44,7 @@ export default function Filter({ filterField, options }) {
       deleteParam(filterField);
     } else {
       setParam(filterField, value);
+      setParam("page", 1);
     }
   }
   return (
