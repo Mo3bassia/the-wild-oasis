@@ -6,6 +6,7 @@ import Heading from "../../ui/Heading";
 import ButtonGroup from "../../ui/ButtonGroup";
 import Button from "../../ui/Button";
 import ButtonText from "../../ui/ButtonText";
+import { useSettings } from "../../features/settings/useSettings";
 
 import { useMoveBack } from "../../hooks/useMoveBack";
 import { useNavigate, useParams } from "react-router-dom";
@@ -29,6 +30,8 @@ const Box = styled.div`
 
 function CheckinBooking() {
   const [confirmPaid, setConfirmPaid] = useState(false);
+  const [addBreakfast, setAddBreakfast] = useState(false);
+
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
@@ -36,6 +39,7 @@ function CheckinBooking() {
   const { bookingId: bookingIdParam } = useParams();
   const { data: booking, isLoading } = useBooking(bookingIdParam);
   const { mutate, isLoading: isCheckingin } = useCheckin(bookingIdParam);
+  const { data: settings, isLoading: isLoadingSettings } = useSettings();
 
   useEffect(() => {
     if (booking) {
@@ -43,7 +47,7 @@ function CheckinBooking() {
     }
   }, [booking?.isPaid, booking]);
 
-  if (isLoading) {
+  if (isLoading || isLoadingSettings) {
     return <Spinner />;
   }
 
@@ -55,34 +59,22 @@ function CheckinBooking() {
     hasBreakfast,
     numNights,
   } = booking || {};
+  const breakfastPrice = settings?.breakfastPrice * numGuests * numNights || 0;
 
   function handleCheckin() {
     if (!confirmPaid) {
       toast.error("Please confirm that the booking has been paid.");
       return;
     }
-    mutate(
-      {
-        status: "checked-in",
-        isPaid: true,
-      },
-      {
-        onSuccess: () => {
-          queryClient.invalidateQueries({
-            queryKey: ["booking", bookingIdParam],
-            active: true,
-          });
-          queryClient.refetchQueries(["booking", bookingIdParam]);
-          navigate("/");
-          toast.success(`Booking #${bookingIdParam} checked in successfully!`);
-        },
-        onError: (error) => {
-          toast.error(
-            `Error checking in booking #${bookingIdParam}: ${error.message}`
-          );
-        },
-      }
-    );
+    if (addBreakfast) {
+      mutate({
+        hasBreakfast: true,
+        extrasPrice: breakfastPrice,
+        totalPrice: totalPrice + breakfastPrice,
+      });
+    } else {
+      mutate();
+    }
   }
 
   return (
@@ -94,6 +86,21 @@ function CheckinBooking() {
 
       <BookingDataBox booking={booking} />
 
+      {!hasBreakfast && (
+        <Box>
+          <CheckBox
+            checked={addBreakfast}
+            onChange={() => {
+              setAddBreakfast((checked) => !checked);
+              setConfirmPaid(false);
+            }}
+            id="breakfast"
+          >
+            Want to add breakfast for {formatCurrency(breakfastPrice)}?
+          </CheckBox>
+        </Box>
+      )}
+
       <Box>
         <CheckBox
           checked={confirmPaid || isCheckingin}
@@ -101,8 +108,11 @@ function CheckinBooking() {
           id="confirm"
           disabled={confirmPaid}
         >
-          I confirm that {guests.fullName} has paid the total amount of{" "}
-          {formatCurrency(totalPrice)}
+          I confirm that {guests.fullName} has paid the total amount of
+          {formatCurrency(totalPrice + (addBreakfast ? breakfastPrice : 0))}
+          {addBreakfast &&
+            `(${formatCurrency(totalPrice)} +
+          ${formatCurrency(breakfastPrice)})`}
         </CheckBox>
       </Box>
 
