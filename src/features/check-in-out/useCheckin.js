@@ -9,7 +9,6 @@ export function useCheckin(id) {
 
   return useMutation({
     mutationFn: (breakfast) => {
-      console.log(breakfast);
       updateBooking(id, {
         status: "checked-in",
         isPaid: true,

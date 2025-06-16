@@ -32,9 +32,6 @@ function CheckinBooking() {
   const [confirmPaid, setConfirmPaid] = useState(false);
   const [addBreakfast, setAddBreakfast] = useState(false);
 
-  const queryClient = useQueryClient();
-  const navigate = useNavigate();
-
   const moveBack = useMoveBack();
   const { bookingId: bookingIdParam } = useParams();
   const { data: booking, isLoading } = useBooking(bookingIdParam);
