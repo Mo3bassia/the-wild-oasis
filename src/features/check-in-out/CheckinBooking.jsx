@@ -8,6 +8,16 @@ import Button from "../../ui/Button";
 import ButtonText from "../../ui/ButtonText";
 
 import { useMoveBack } from "../../hooks/useMoveBack";
+import { useNavigate, useParams } from "react-router-dom";
+import { getBooking } from "../../services/apiBookings";
+import { useBooking } from "../bookings/useBooking";
+import Spinner from "../../ui/Spinner";
+import CheckBox from "../../ui/CheckBox";
+import { useEffect, useState } from "react";
+import { formatCurrency } from "../../utils/helpers";
+import { useCheckin } from "./useCheckin";
+import { useQueryClient } from "@tanstack/react-query";
+import toast from "react-hot-toast";
 
 const Box = styled.div`
   /* Box */
@@ -18,9 +28,24 @@ const Box = styled.div`
 `;
 
 function CheckinBooking() {
-  const moveBack = useMoveBack();
+  const [confirmPaid, setConfirmPaid] = useState(false);
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
 
-  const booking = {};
+  const moveBack = useMoveBack();
+  const { bookingId: bookingIdParam } = useParams();
+  const { data: booking, isLoading } = useBooking(bookingIdParam);
+  const { mutate, isLoading: isCheckingin } = useCheckin(bookingIdParam);
+
+  useEffect(() => {
+    if (booking) {
+      setConfirmPaid(booking?.isPaid ?? false);
+    }
+  }, [booking?.isPaid, booking]);
+
+  if (isLoading) {
+    return <Spinner />;
+  }
 
   const {
     id: bookingId,
@@ -29,9 +54,36 @@ function CheckinBooking() {
     numGuests,
     hasBreakfast,
     numNights,
-  } = booking;
+  } = booking || {};
 
-  function handleCheckin() {}
+  function handleCheckin() {
+    if (!confirmPaid) {
+      toast.error("Please confirm that the booking has been paid.");
+      return;
+    }
+    mutate(
+      {
+        status: "checked-in",
+        isPaid: true,
+      },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries({
+            queryKey: ["booking", bookingIdParam],
+            active: true,
+          });
+          queryClient.refetchQueries(["booking", bookingIdParam]);
+          navigate("/");
+          toast.success(`Booking #${bookingIdParam} checked in successfully!`);
+        },
+        onError: (error) => {
+          toast.error(
+            `Error checking in booking #${bookingIdParam}: ${error.message}`
+          );
+        },
+      }
+    );
+  }
 
   return (
     <>
@@ -42,8 +94,26 @@ function CheckinBooking() {
 
       <BookingDataBox booking={booking} />
 
+      <Box>
+        <CheckBox
+          checked={confirmPaid || isCheckingin}
+          onChange={() => setConfirmPaid((c) => !c)}
+          id="confirm"
+          disabled={confirmPaid}
+        >
+          I confirm that {guests.fullName} has paid the total amount of{" "}
+          {formatCurrency(totalPrice)}
+        </CheckBox>
+      </Box>
+
       <ButtonGroup>
-        <Button onClick={handleCheckin}>Check in booking #{bookingId}</Button>
+        <Button
+          onClick={handleCheckin}
+          disabled={!confirmPaid || isCheckingin}
+          variation="primary"
+        >
+          Check in booking #{bookingId}
+        </Button>
         <Button variation="secondary" onClick={moveBack}>
           Back
         </Button>

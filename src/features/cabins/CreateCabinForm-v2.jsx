@@ -26,7 +26,7 @@ function CreateCabinForm({ cabinToEdit = {} }) {
     onSuccess: () => {
       toast.success("Cabin created successfully");
       queryClient.invalidateQueries({ queryKey: ["cabins"] });
-      queryClient.refetchQueries({ queryKey: ["cabins"] });
+      queryClient.refetchQueries(["cabins"]);
       reset();
     },
     onError: (error) => {

@@ -11,7 +11,7 @@ export function useEditSettings() {
     onSuccess: () => {
       toast.success("Settings have been updated successfully");
       queryClient.invalidateQueries({ queryKey: ["settings"] });
-      queryClient.refetchQueries({ queryKey: ["settings"] });
+      queryClient.refetchQueries(["settings"]);
     },
     onError: (error) => {
       toast.error("Error updating settings");
