@@ -121,11 +121,7 @@ function BookingRow({
               </Menus.Button>
             )}
             <Modal.Open opens="delete-booking">
-              <Menus.Button
-                icon={<HiArrowUpOnSquare />}
-                onClick={() => console.log("Hello")}
-                variation="danger"
-              >
+              <Menus.Button icon={<HiArrowUpOnSquare />} variation="danger">
                 Delete
               </Menus.Button>
             </Modal.Open>

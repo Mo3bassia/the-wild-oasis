@@ -23,7 +23,6 @@ export function useCheckout(id) {
         queryKey: ["booking", id],
         active: true,
       });
-      console.log(["booking", id]);
       queryClient.refetchQueries(["booking", id]);
       queryClient.invalidateQueries({
         queryKey: ["bookings", status, sortBy, Number(page)],

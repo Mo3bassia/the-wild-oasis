@@ -26,8 +26,7 @@ function LoginForm() {
           if (!user) {
             return;
           }
-          console.log("User logged in:", user);
-          navigate("/dashboard");
+          navigate("/dashboard", { replace: true });
         },
         onSettled: () => {
           setEmail("");

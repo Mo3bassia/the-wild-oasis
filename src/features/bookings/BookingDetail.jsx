@@ -91,9 +91,7 @@ function BookingDetail({ id }) {
               onConfirm={() =>
                 deleteBooking(id, {
                   onSuccess: () => {
-                    console.log("Hello");
                     navigate(-1);
-                    // navigate(-1);
                   },
                 })
               }

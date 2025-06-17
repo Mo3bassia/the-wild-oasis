@@ -14,7 +14,6 @@ export async function login({ email, password }) {
     return null;
   }
   toast.success("Login successful!");
-  console.log(data);
   return data;
 }
 
@@ -23,4 +22,17 @@ export async function getUser() {
     data: { user },
   } = await supabase.auth.getUser();
   return user;
+}
+
+export async function logout() {
+  let { error } = await supabase.auth.signOut();
+
+  if (error) {
+    console.error("Logout failed:", error);
+    toast.error(`Logout failed: ${error.message}`);
+
+    return false;
+  }
+  toast.success("Logout successful!");
+  return true;
 }
