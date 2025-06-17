@@ -26,7 +26,12 @@ function LoginForm() {
           if (!user) {
             return;
           }
-          navigate("/");
+          console.log("User logged in:", user);
+          navigate("/dashboard");
+        },
+        onSettled: () => {
+          setEmail("");
+          setPassword("");
         },
       }
     );
