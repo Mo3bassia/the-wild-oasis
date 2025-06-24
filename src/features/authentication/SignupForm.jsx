@@ -3,6 +3,7 @@ import Button from "../../ui/Button";
 import Form from "../../ui/Form";
 import FormRow from "../../ui/FormRow";
 import Input from "../../ui/Input";
+import { useSignUp } from "./useSignUp";
 
 // Email regex: /\S+@\S+\.\S+/
 
@@ -11,11 +12,23 @@ function SignupForm() {
     register,
     handleSubmit,
     watch,
+    reset,
     formState: { errors },
   } = useForm();
 
+  const { mutate: signUp, isPaused: isSigningUp } = useSignUp();
+
   function onSubmit(value) {
-    console.log("Form submitted with values:", value);
+    signUp(
+      {
+        fullName: value.fullName,
+        email: value.email,
+        password: value.password,
+      },
+      {
+        onSettled: reset,
+      }
+    );
   }
 
   return (
@@ -23,6 +36,8 @@ function SignupForm() {
       <FormRow label="Full name" error={errors.fullName?.message}>
         <Input
           type="text"
+          disabled={isSigningUp}
+          placeholder="Enter your full name"
           id="fullName"
           {...register("fullName", { required: "This" })}
         />
@@ -31,6 +46,8 @@ function SignupForm() {
       <FormRow label="Email address" error={errors.email?.message}>
         <Input
           type="email"
+          disabled={isSigningUp}
+          placeholder="Enter your email address"
           id="email"
           {...register("email", {
             required: true,
@@ -49,6 +66,8 @@ function SignupForm() {
         <Input
           type="password"
           id="password"
+          disabled={isSigningUp}
+          placeholder="Enter your password"
           {...register("password", {
             required: true,
             minLength: {
@@ -63,6 +82,8 @@ function SignupForm() {
         <Input
           type="password"
           id="passwordConfirm"
+          disabled={isSigningUp}
+          placeholder="Repeat your password"
           {...register("passwordConfirm", {
             required: true,
             validate: (value) => {
@@ -75,7 +96,7 @@ function SignupForm() {
 
       <FormRow>
         {/* type is an HTML attribute! */}
-        <Button variation="secondary" type="reset">
+        <Button variation="secondary" type="reset" disabled={isSigningUp}>
           Cancel
         </Button>
         <Button>Create new user</Button>

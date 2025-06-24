@@ -2,6 +2,28 @@ import toast from "react-hot-toast";
 import supabase from "./supabase";
 import { useNavigate } from "react-router-dom";
 
+export async function signUp({ fullName, email, password }) {
+  const { data, error } = await supabase.auth.signUp({
+    email,
+    password,
+    options: {
+      data: {
+        full_name: fullName,
+        avatar: "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp", // Default avatar
+      },
+    },
+  });
+  if (error) {
+    console.error("Signup failed:", error);
+    toast.error(`Signup failed: ${error.message}`);
+    return null;
+  }
+  toast.success(
+    "Signup successful! Please check your email to confirm your account."
+  );
+  return data;
+}
+
 export async function login({ email, password }) {
   const { data, error } = await supabase.auth.signInWithPassword({
     email,
