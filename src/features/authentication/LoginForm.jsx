@@ -62,6 +62,30 @@ function LoginForm() {
           {isPending ? <SpinnerMini /> : "Login"}
         </Button>
       </FormRowVertical>
+
+      <div
+        style={{
+          textAlign: "center",
+          marginTop: "2rem",
+          padding: "1.6rem",
+          borderTop: "1px solid var(--color-grey-100)",
+          display: "flex",
+          flexDirection: "column",
+          gap: "1rem",
+        }}
+      >
+        <p style={{ fontSize: "1.4rem", color: "var(--color-grey-500)" }}>
+          New to Wild Oasis? Join us today and transform your property
+          management experience.
+        </p>
+        <Button
+          size="medium"
+          variation="secondary"
+          onClick={() => navigate("/users")}
+        >
+          Create an account
+        </Button>
+      </div>
     </Form>
   );
 }

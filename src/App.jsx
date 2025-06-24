@@ -35,8 +35,8 @@ export default function App() {
             <Route path="users" element={<Users />}></Route>
             <Route path="cabins" element={<Cabins />}></Route>
             <Route path="*" element={<PageNotFound />}></Route>
+            <Route path="account" element={<Account />}></Route>
           </Route>
-          <Route path="account" element={<Account />}></Route>
           <Route path="login" element={<Login />}></Route>
         </Routes>
       </BrowserRouter>
