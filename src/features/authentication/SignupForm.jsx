@@ -4,6 +4,9 @@ import Form from "../../ui/Form";
 import FormRow from "../../ui/FormRow";
 import Input from "../../ui/Input";
 import { useSignUp } from "./useSignUp";
+import { useUpdateUser } from "./useUpdateUser";
+import { useState } from "react";
+import FileInput from "../../ui/FileInput";
 
 // Email regex: /\S+@\S+\.\S+/
 
@@ -16,14 +19,16 @@ function SignupForm() {
     formState: { errors },
   } = useForm();
 
-  const { mutate: signUp, isPaused: isSigningUp } = useSignUp();
+  const { mutate: signUp, isPending: isSigningUp } = useSignUp();
 
   function onSubmit(value) {
+    console.log(value);
     signUp(
       {
         fullName: value.fullName,
         email: value.email,
         password: value.password,
+        avatar: value.avatar[0],
       },
       {
         onSettled: reset,
@@ -39,7 +44,7 @@ function SignupForm() {
           disabled={isSigningUp}
           placeholder="Enter your full name"
           id="fullName"
-          {...register("fullName", { required: "This" })}
+          {...register("fullName", { required: "Full name is required" })}
         />
       </FormRow>
 
@@ -90,6 +95,15 @@ function SignupForm() {
               const password = watch("password");
               return password === value || "Passwords do not match";
             },
+          })}
+        />
+      </FormRow>
+      <FormRow label="Avatar image" error={errors.avatar?.message}>
+        <FileInput
+          id="avatar"
+          accept="image/*"
+          {...register("avatar", {
+            required: "Avatar image is required",
           })}
         />
       </FormRow>

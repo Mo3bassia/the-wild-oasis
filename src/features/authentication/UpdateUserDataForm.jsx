@@ -6,22 +6,42 @@ import Form from "../../ui/Form";
 import FormRow from "../../ui/FormRow";
 import Input from "../../ui/Input";
 
-import { useUser } from "./useUser";
+import { useGetUser } from "./useGetUser";
+import { useUpdateUser } from "./useUpdateUser";
+import { useQueryClient } from "@tanstack/react-query";
 
 function UpdateUserDataForm() {
   // We don't need the loading state, and can immediately use the user data, because we know that it has already been loaded at this point
   const {
-    user: {
-      email,
-      user_metadata: { fullName: currentFullName },
-    },
-  } = useUser();
+    data: { email, user_metadata: { full_name: currentFullName } = "" } = {},
+  } = useGetUser() || {};
+
+  const { mutate: updateUser, isPending: isUpdatingUser } = useUpdateUser();
 
   const [fullName, setFullName] = useState(currentFullName);
   const [avatar, setAvatar] = useState(null);
+  const queryClient = useQueryClient();
 
   function handleSubmit(e) {
     e.preventDefault();
+    updateUser(
+      {
+        full_name: fullName,
+        avatar: avatar,
+      },
+      {
+        onSuccess: (data) => {
+          console.log(data);
+          // queryClient.setQueryData(["user"], data);
+        },
+      }
+    );
+  }
+
+  function handleReset(e) {
+    e.preventDefault();
+    setFullName(currentFullName);
+    setAvatar(null);
   }
 
   return (
@@ -45,7 +65,7 @@ function UpdateUserDataForm() {
         />
       </FormRow>
       <FormRow>
-        <Button type="reset" variation="secondary">
+        <Button onClick={handleReset} variation="secondary">
           Cancel
         </Button>
         <Button>Update account</Button>
