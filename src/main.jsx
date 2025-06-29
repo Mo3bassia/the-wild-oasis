@@ -5,6 +5,7 @@ import App from "./App.jsx";
 import { QueryClient } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Toaster } from "react-hot-toast";
+import { DarkModeProvider } from "./context/DarkModeContext.jsx";
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -14,11 +15,13 @@ const queryClient = new QueryClient({
 });
 
 createRoot(document.getElementById("root")).render(
-  <QueryClientProvider client={queryClient}>
-    <ReactQueryDevtools initialIsOpen={false} />
-    <Toaster />
-    <StrictMode>
-      <App />
-    </StrictMode>
-  </QueryClientProvider>
+  <DarkModeProvider>
+    <QueryClientProvider client={queryClient}>
+      <ReactQueryDevtools initialIsOpen={false} />
+      <Toaster />
+      <StrictMode>
+        <App />
+      </StrictMode>
+    </QueryClientProvider>
+  </DarkModeProvider>
 );

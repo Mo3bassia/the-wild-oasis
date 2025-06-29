@@ -12,6 +12,8 @@ import GlobalStyles from "./styles/GlobalStyles";
 import AppLayout from "./ui/AppLayout";
 import ProtectedRoute from "./ui/ProtectedRoute";
 import Checkin from "./pages/Checkin";
+import { useEffect } from "react";
+import { useDarkMode } from "./context/DarkModeContext";
 
 export default function App() {
   return (
