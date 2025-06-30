@@ -1,6 +1,6 @@
 # 🏡 The Wild Oasis
 
-![Wild Oasis Banner](https://i.ibb.co/9GwBksC/the-wild-oasis-banner.png)
+![Wild Oasis Banner](./public/screenshots/banner.png)
 
 A comprehensive hotel management application for The Wild Oasis boutique hotel. This internal application helps staff manage cabins, bookings, and guests while providing insightful statistics through a powerful dashboard.
 
