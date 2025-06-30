@@ -13,7 +13,7 @@ import { useNavigate } from "react-router-dom";
 import Modal from "../../ui/Modal";
 import { useDeleteBooking } from "./useDeleteBooking";
 import Button from "../../ui/Button";
-import StyledConfirmDelete from "../../ui/ConfirmDelete";
+import StyledConfirmDelete from "../../ui/ConfirmDelete.jsx";
 
 const Cabin = styled.div`
   font-size: 1.6rem;

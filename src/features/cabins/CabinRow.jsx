@@ -7,7 +7,7 @@ import { useCreateCabin } from "./useCreateCabin";
 import toast from "react-hot-toast";
 import Modal from "../../ui/Modal";
 import Button from "../../ui/Button";
-import StyledConfirmDelete from "../../ui/ConfirmDelete";
+import StyledConfirmDelete from "../../ui/ConfirmDelete.jsx";
 import Table from "../../ui/Table";
 import Menus from "../../ui/Menus";
 
