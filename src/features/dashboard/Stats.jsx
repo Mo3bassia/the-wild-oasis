@@ -22,8 +22,6 @@ export default function Stats({
     confirmedStays.reduce((acc, cur) => acc + cur.numNights, 0) /
     (numDays * cabinCount);
 
-  console.log(occupancyRate);
-
   return (
     <>
       <Stat

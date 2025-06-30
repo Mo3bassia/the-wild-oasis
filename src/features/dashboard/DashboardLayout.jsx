@@ -5,6 +5,7 @@ import { useRecentStays } from "./useRecentStays";
 import Stats from "./Stats";
 import { useUrlSearch } from "../../hooks/useUrlSearch";
 import { useCabins } from "../cabins/useCabins";
+import SalesChart from "./SalesChart";
 
 const StyledDashboardLayout = styled.div`
   display: grid;
@@ -18,6 +19,7 @@ export default function DashboardLayout() {
   const { data: stays, isLoading: isLoading2 } = useRecentStays();
   const { data: cabins, isLoading: isLoading3 } = useCabins();
   const { getParam } = useUrlSearch();
+  const numDays = +getParam("last") || 7;
 
   const confirmedStays =
     stays?.filter(
@@ -31,14 +33,14 @@ export default function DashboardLayout() {
   return (
     <StyledDashboardLayout>
       <Stats
-        numDays={getParam("last") || 7}
+        numDays={numDays}
         bookings={bookings}
         confirmedStays={confirmedStays}
         cabinCount={cabins?.length || 0}
       />
       <div>Today's activity</div>
       <div>Chart stay durations</div>
-      <div>Chart of sales</div>
+      <SalesChart bookings={bookings} numDays={numDays} />
     </StyledDashboardLayout>
   );
 }
