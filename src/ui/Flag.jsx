@@ -6,3 +6,7 @@ export const Flag = styled.img`
   display: block;
   border: 1px solid var(--color-grey-100);
 `;
+
+export default function FlagComponent({ src, alt }) {
+  return <Flag src={src} alt={alt} />;
+}

@@ -7,6 +7,7 @@ import { useUrlSearch } from "../../hooks/useUrlSearch";
 import { useCabins } from "../cabins/useCabins";
 import SalesChart from "./SalesChart";
 import DurationChart from "./DurationChart";
+import TodayActivity from "../check-in-out/TodayActivity";
 
 const StyledDashboardLayout = styled.div`
   display: grid;
@@ -39,7 +40,7 @@ export default function DashboardLayout() {
         confirmedStays={confirmedStays}
         cabinCount={cabins?.length || 0}
       />
-      <div>Today's activity</div>
+      <TodayActivity />
       <DurationChart confirmedStays={confirmedStays} />
       <SalesChart bookings={bookings} numDays={numDays} />
     </StyledDashboardLayout>
