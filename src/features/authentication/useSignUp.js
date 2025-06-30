@@ -7,8 +7,5 @@ export function useSignUp() {
     mutationFn: ({ fullName, email, password, avatar }) => {
       signUp({ fullName, email, password, avatar });
     },
-    onSuccess: (data) => {
-      console.log(data);
-    },
   });
 }

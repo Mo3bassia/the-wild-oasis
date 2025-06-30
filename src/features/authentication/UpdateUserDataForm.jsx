@@ -24,18 +24,10 @@ function UpdateUserDataForm() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    updateUser(
-      {
-        full_name: fullName,
-        avatar: avatar,
-      },
-      {
-        onSuccess: (data) => {
-          console.log(data);
-          // queryClient.setQueryData(["user"], data);
-        },
-      }
-    );
+    updateUser({
+      full_name: fullName,
+      avatar: avatar,
+    });
   }
 
   function handleReset(e) {

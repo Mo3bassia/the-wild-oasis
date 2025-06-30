@@ -14,7 +14,6 @@ export function useDeleteBooking() {
 
   return useMutation({
     mutationFn: (id) => {
-      console.log(id);
       deleteBooking(id);
     },
     onSuccess: () => {

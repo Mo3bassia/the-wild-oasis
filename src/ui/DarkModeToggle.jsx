@@ -9,9 +9,6 @@ export default function DarkModeToggle() {
   function handleToggle() {
     toggleDarkMode();
   }
-  useEffect(() => {
-    console.log(darkMode);
-  }, [darkMode]);
   return (
     <ButtonIcon onClick={handleToggle}>
       {!darkMode ? <HiOutlineMoon /> : <HiOutlineSun />}

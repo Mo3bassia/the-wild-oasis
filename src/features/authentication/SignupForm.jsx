@@ -22,7 +22,6 @@ function SignupForm() {
   const { mutate: signUp, isPending: isSigningUp } = useSignUp();
 
   function onSubmit(value) {
-    console.log(value);
     signUp(
       {
         fullName: value.fullName,
