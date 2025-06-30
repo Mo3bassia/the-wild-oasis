@@ -9,8 +9,8 @@ import SpinnerMini from "../../ui/SpinnerMini";
 import { useNavigate } from "react-router-dom";
 
 function LoginForm() {
-  const [email, setEmail] = useState("mo3bassia@gmail.com");
-  const [password, setPassword] = useState("123456789");
+  const [email, setEmail] = useState("user@user.user");
+  const [password, setPassword] = useState("12345678");
   const { mutate: loginUser, isPending } = useLogin();
   const navigate = useNavigate();
 
