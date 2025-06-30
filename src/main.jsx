@@ -7,7 +7,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Toaster } from "react-hot-toast";
 import { DarkModeProvider } from "./context/DarkModeContext.jsx";
 import { ErrorBoundary } from "react-error-boundary";
-import ErrorFallBack from "./ui/ErrorFallBack.jsx";
+import { fallbackRender } from "./ui/fallbackRender.jsx";
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -23,7 +23,7 @@ createRoot(document.getElementById("root")).render(
       <Toaster />
       <StrictMode>
         <ErrorBoundary
-          FallbackComponent={ErrorFallBack}
+          FallbackComponent={fallbackRender}
           onReset={() => window.location.replace("/")}
         >
           <App />
