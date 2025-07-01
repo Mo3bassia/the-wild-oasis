@@ -25,3 +25,7 @@ dist-ssr
 
 .vercel
 src/services/supabase.js
+
+.env
+.env.local
+.env.production
