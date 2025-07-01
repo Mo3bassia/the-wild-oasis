@@ -24,7 +24,6 @@ dist-ssr
 *.sw?
 
 .vercel
-src/services/supabase.js
 
 .env
 .env.local
