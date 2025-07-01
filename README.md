@@ -127,7 +127,32 @@ npm run dev
 yarn dev
 ```
 
-4. Open your browser and navigate to `http://localhost:5173`
+4. Set up environment variables
+
+Create a `.env` file in the root directory and add your Supabase credentials:
+
+```bash
+VITE_SUPABASE_URL=your_supabase_project_url
+VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+```
+
+5. Set up Supabase database
+
+Create the following tables in your Supabase project:
+
+- `bookings`
+- `cabins`
+- `settings`
+- `guests`
+
+Create the following storage buckets:
+
+- `avatars`
+- `cabin-images`
+
+**Important**: Enable Row Level Security (RLS) for all tables to ensure proper data protection and access control.
+
+6. Open your browser and navigate to `http://localhost:5173`
 
 ### Building for Production
 
