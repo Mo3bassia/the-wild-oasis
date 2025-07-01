@@ -6,7 +6,7 @@ A comprehensive hotel management application for The Wild Oasis boutique hotel. 
 
 ## 🔗 Links
 
-- [Live Demo](https://the-wild-oasis-mo3bassia.vercel.app)
+- [Live Demo](https://the-wild-oasis-eta-lac.vercel.app/)
 - [GitHub Repository](https://github.com/mo3bassia/the-wild-oasis)
 - [My Portfolio](https://mo3bassia-next-portfolio.vercel.app/)
 
